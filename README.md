@@ -3,4 +3,6 @@ This repository was first created reading this to use git hub - https://guides.g
 # BridgeDataGap
 First Sharing Code Project
 
-# Let's find a data set project we can all start contributing to.
+# Collaborate, clone the repo and edit, add value to the python code.
+
+
