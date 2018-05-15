@@ -180,6 +180,12 @@ df['LoanAmount_log'].hist(bins=20)
 
 #Now we see that the distribution is much better than before. I will leave it upto you to impute the missing values for Gender, Married, Dependents, Loan_Amount_Term, Credit_History. Also, I encourage you to think about possible additional information which can be derived from the data. For example, creating a column for LoanAmount/TotalIncome might make sense as it gives an idea of how well the applicant is suited to pay back his loan.
 
+
+### PENDING TASKS
+### IMPUTE MISSING VALUES FOR Gender, Married, Dependents, Loan_Amount_Term, Credit_History
+
+### CREATE A NEW VARIABLE
+
 #Next, we will look at making predictive models.
 
  
