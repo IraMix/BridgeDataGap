@@ -37,7 +37,7 @@ df['ApplicantIncome'].hist(bins=50)
 
 #Next, we look at box plots to understand the distributions. Box plot for fare can be plotted by:
 
-df.boxplot(column='ApplicantIncome')
+df.boxplot(column='ApplicantIncome') # Cjearly outliers
 
 #This confirms the presence of a lot of outliers/extreme values. This can be attributed to the income disparity in the society. Part of this can be driven by the fact that we are looking at people with different education levels. Let us segregate them by Education:
 
@@ -54,7 +54,6 @@ df.boxplot(column='LoanAmount')
 #Again, there are some extreme values. Clearly, both ApplicantIncome and LoanAmount require some amount of data munging. LoanAmount has missing and well as extreme values values, while ApplicantIncome has a few extreme values, which demand deeper understanding. We will take this up in coming sections.
 
  
-
 #Categorical variable analysis
 
 #Now that we understand distributions for ApplicantIncome and LoanIncome, let us understand categorical variables in more details. We will use Excel style pivot table and cross-tabulation. For instance, let us look at the chances of getting a loan based on credit history. This can be achieved in MS Excel using a pivot table as:
@@ -100,10 +99,12 @@ temp3.plot(kind='bar', stacked=True, color=['red','blue'], grid=False)
 #While our exploration of the data, we found a few problems in the data set, which needs to be solved before the data is ready for a good model. This exercise is typically referred as “Data Munging”. Here are the problems, we are already aware of:
 
 #There are missing values in some variables. We should estimate those values wisely depending on the amount of missing values and the expected importance of variables.
+
 #While looking at the distributions, we saw that ApplicantIncome and LoanAmount seemed to contain extreme values at either end. Though they might make intuitive sense, but should be treated appropriately.
+
+
 #In addition to these problems with numerical fields, we should also look at the non-numerical fields i.e. Gender, Property_Area, Married, Education and Dependents to see, if they contain any useful information.
 
-#If you are new to Pandas, I would recommend reading this article before moving on. It details some useful techniques of data manipulation.
 
  
 
@@ -122,6 +123,8 @@ df.apply(lambda x: sum(x.isnull()),axis=0)
  
 
 #How to fill missing values in LoanAmount?
+
+## First way to fill missing Values
 
 #There are numerous ways to fill the missing values of loan amount – the simplest being replacement by mean, which can be done by following code:
 
@@ -142,15 +145,18 @@ df['LoanAmount'].fillna(df['LoanAmount'].mean(), inplace=True)
 
 df['Self_Employed'].fillna('No',inplace=True)
 
+
+#Second Way of replacing values
 #Now, we will create a Pivot table, which provides us median values for all the groups of unique values of Self_Employed and Education features. Next, we define a function, which returns the values of these cells and apply it to fill the missing values of loan amount:
 
- 
 table = df.pivot_table(values='LoanAmount', index='Self_Employed' ,columns='Education', aggfunc=np.median)
+
+table
 
 # Define function to return value of this pivot_table
 def fage(x):
  return table.loc[x['Self_Employed'],x['Education']]
-
+ 
 # Replace missing values
 df['LoanAmount'].fillna(df[df['LoanAmount'].isnull()].apply(fage, axis=1), inplace=True)
 
@@ -312,7 +318,7 @@ classification_model(model, df,predictor_var,outcome_var)
 featimp = pd.Series(model.feature_importances_, index=predictor_var).sort_values(ascending=False)
 print featimp  
 
-et’s use the top 5 variables for creating a model. Also, we will modify the parameters of random forest model a little bit:
+#let’s use the top 5 variables for creating a model. Also, we will modify the parameters of random forest model a little bit:
 
 model = RandomForestClassifier(n_estimators=25, min_samples_split=25, max_depth=7, max_features=1)
 predictor_var = ['TotalIncome_log','LoanAmount_log','Credit_History','Dependents','Property_Area']
